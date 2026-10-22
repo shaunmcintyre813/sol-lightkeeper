@@ -25,8 +25,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
       - name: Check puzzle routes
         run: node --test tests/levels.test.mjs
+      - name: Check complete update manifest
+        run: node tools/update-manifest.mjs --check
+      - name: Check native update rollback
+        run: |
+          mkdir -p android/build/native-tests
+          javac --release 11 -d android/build/native-tests android/src/com/shaunmcintyre/sol/lightkeeper/UpdateStore.java tests/UpdateStoreTest.java
+          java -cp android/build/native-tests UpdateStoreTest
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

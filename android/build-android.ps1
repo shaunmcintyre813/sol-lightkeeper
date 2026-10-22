@@ -19,7 +19,11 @@ $unsigned = Join-Path $build 'unsigned.apk'
 $aligned = Join-Path $build 'aligned.apk'
 $keystore = Join-Path $repo 'release\sol-lightkeeper.jks'
 $passwordFile = Join-Path $repo 'release\keystore-pass.txt'
-$output = Join-Path $repo 'dist\downloads\Sol-Lightkeeper-v1.0.1.apk'
+$output = Join-Path $repo 'dist\downloads\Sol-Lightkeeper-v1.0.2.apk'
+$contentVersion = Get-Content (Join-Path $repo 'content-version.json') -Raw | ConvertFrom-Json
+if ($contentVersion.build -ne 3 -or $contentVersion.version -ne '1.0.2') {
+    throw 'The v1.0.2 migration APK must be built from content build 3. Use its release commit, and bump Android versionCode for any later native APK.'
+}
 
 function Check-Exit([string] $step) {
     if ($LASTEXITCODE -ne 0) { throw "$step failed with exit code $LASTEXITCODE" }
@@ -28,13 +32,21 @@ function Check-Exit([string] $step) {
 foreach ($path in @($assets, $res, $classes, $dex, (Split-Path $keystore), (Split-Path $output))) {
     New-Item -ItemType Directory -Force -Path $path | Out-Null
 }
-Get-ChildItem (Join-Path $repo 'dist') -File | Copy-Item -Destination $assets -Force
-New-Item -ItemType Directory -Force -Path (Join-Path $assets 'icons') | Out-Null
-Copy-Item (Join-Path $repo 'dist\icons\*') (Join-Path $assets 'icons') -Force
+$manifest = Join-Path $repo 'dist\update.manifest'
+& node (Join-Path $repo 'tools\update-manifest.mjs') --check
+Check-Exit 'Content manifest check'
+Get-Content $manifest | Select-Object -Skip 1 | ForEach-Object {
+    $path = ($_ -split "`t")[0]
+    $target = Join-Path $assets $path
+    New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
+    Copy-Item (Join-Path (Join-Path $repo 'dist') $path) $target -Force
+}
+Copy-Item $manifest (Join-Path $assets 'update.manifest') -Force
 Copy-Item (Join-Path $repo 'dist\icons\icon-192.png') (Join-Path $res 'icon.png') -Force
 
 & (Join-Path $java 'javac.exe') -source 8 -target 8 -classpath $platform -d $classes `
-    (Join-Path $PSScriptRoot 'src\com\shaunmcintyre\sol\lightkeeper\MainActivity.java')
+    (Join-Path $PSScriptRoot 'src\com\shaunmcintyre\sol\lightkeeper\MainActivity.java') `
+    (Join-Path $PSScriptRoot 'src\com\shaunmcintyre\sol\lightkeeper\UpdateStore.java')
 Check-Exit 'Java compilation'
 
 & (Join-Path $tools 'aapt.exe') package -f -M (Join-Path $PSScriptRoot 'AndroidManifest.xml') `
@@ -54,22 +66,8 @@ try {
 & (Join-Path $tools 'zipalign.exe') -f 4 $unsigned $aligned
 Check-Exit 'APK alignment'
 
-if (!(Test-Path $keystore)) {
-    $random = [System.Security.Cryptography.RandomNumberGenerator]::Create()
-    $passwordBytes = New-Object byte[] 32
-    $random.GetBytes($passwordBytes)
-    $random.Dispose()
-    $password = [Convert]::ToBase64String($passwordBytes)
-    Set-Content -Path $passwordFile -Value $password -Encoding Ascii
-    & (Join-Path $java 'keytool.exe') -genkeypair -keystore $keystore -storetype PKCS12 `
-        -alias sol-lightkeeper -keyalg RSA -keysize 3072 -validity 10000 `
-        -dname 'CN=Sol Lightkeeper, OU=Personal, O=Shaun McIntyre, C=US' `
-        -storepass $password -keypass $password -noprompt
-    Check-Exit 'Signing key generation'
-}
+if (!(Test-Path $keystore)) { throw 'Existing signing key is missing; cannot make an install-over APK.' }
 if (!(Test-Path $passwordFile)) { throw 'Signing key password file is missing.' }
-$password = (Get-Content -Raw -Path $passwordFile).Trim()
-Set-Content -Path $passwordFile -Value $password -Encoding Ascii
 
 & (Join-Path $tools 'apksigner.bat') sign --ks $keystore --ks-type PKCS12 `
     --ks-key-alias sol-lightkeeper --ks-pass "file:$passwordFile" `
@@ -78,6 +76,6 @@ Check-Exit 'APK signing'
 & (Join-Path $tools 'apksigner.bat') verify --verbose $output
 Check-Exit 'APK signature verification'
 $sha256 = (Get-FileHash -Algorithm SHA256 -Path $output).Hash.ToLowerInvariant()
-Set-Content -Path "$output.sha256" -Value "$sha256  Sol-Lightkeeper-v1.0.1.apk" -Encoding Ascii
+Set-Content -Path "$output.sha256" -Value "$sha256  Sol-Lightkeeper-v1.0.2.apk" -Encoding Ascii
 & (Join-Path $tools 'aapt.exe') dump badging $output | Select-Object -First 5
 Write-Output "Built $output"

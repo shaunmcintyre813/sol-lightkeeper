@@ -316,4 +316,7 @@ else if (/Android/.test(navigator.userAgent)) $('installText').textContent = 'In
 new ResizeObserver(resizeCanvas).observe(board);
 updateHeader(); resizeCanvas(); requestAnimationFrame(animate);
 if (!remembered.visited) showModal($('introModal'));
+// The Android shell keeps this exact origin, so the existing progress key and
+// every saved field survive the one-time APK upgrade without a storage move.
+window.SolAndroid?.ready?.();
 if (!bundledAndroid && 'serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
