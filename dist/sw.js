@@ -1,4 +1,4 @@
-const CACHE = 'sol-lightkeeper-v1';
+const CACHE = 'sol-lightkeeper-v2';
 const ASSETS = [
   './', './index.html', './style.css', './game.mjs', './core.mjs',
   './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png',

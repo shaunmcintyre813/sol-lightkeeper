@@ -2,7 +2,9 @@
 
 A quiet, touch-first light puzzle for phone and desktop. Turn mirrors to wake ten handcrafted gardens. Later gardens add prisms that split the beam. There are no accounts, ads, timers, or scores.
 
-**Play:** [Sol: Lightkeeper](https://sol-lightkeeper.shaun-mcintyre813.chatgpt.site) (owner-private install link).
+**Play and install:** [Sol: Lightkeeper on GitHub Pages](https://shaunmcintyre813.github.io/sol-lightkeeper/).
+
+The [owner-private Site](https://sol-lightkeeper.shaun-mcintyre813.chatgpt.site) hosts the same game for a private preview. Progress is kept separately by each browser origin, so choose one install link and keep using it.
 
 ## Play and install
 

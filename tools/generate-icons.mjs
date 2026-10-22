@@ -39,9 +39,12 @@ function color(x, y) {
     const edge = Math.max(0, 1 - Math.abs(sun - .233) / (.025 + spoke * .035));
     r = blend(r, 248, edge); g = blend(g, 193, edge); b = blend(b, 112, edge);
   }
-  if (sun < .205) {
+  {
     const t = Math.min(1, sun / .205);
-    r = blend(255, 232, t); g = blend(243, 157, t); b = blend(193, 91, t);
+    const softEdge = Math.max(0, Math.min(1, (.209 - sun) / .008));
+    r = blend(r, blend(255, 232, t), softEdge);
+    g = blend(g, blend(243, 157, t), softEdge);
+    b = blend(b, blend(193, 91, t), softEdge);
   }
   for (const [sx, sy, radius] of [[.17,.2,.008],[.79,.22,.006],[.8,.77,.009],[.2,.78,.005]]) {
     const star = Math.max(0, 1 - Math.hypot(x - sx, y - sy) / radius);
