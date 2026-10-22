@@ -2,7 +2,7 @@
 
 A quiet, touch-first light puzzle for phone and desktop. Turn mirrors to wake ten handcrafted gardens. Later gardens add prisms that split the beam. There are no accounts, ads, timers, or scores.
 
-**Download for Android:** [Sol: Lightkeeper v1.0 APK](https://shaunmcintyre813.github.io/sol-lightkeeper/downloads/Sol-Lightkeeper-v1.0.apk).
+**Download for Android:** [Sol: Lightkeeper v1.0.1 APK](https://shaunmcintyre813.github.io/sol-lightkeeper/downloads/Sol-Lightkeeper-v1.0.1.apk).
 
 **Play in a browser:** [Sol: Lightkeeper on GitHub Pages](https://shaunmcintyre813.github.io/sol-lightkeeper/).
 
@@ -10,7 +10,7 @@ The [owner-private Site](https://sol-lightkeeper.shaun-mcintyre813.chatgpt.site)
 
 ## Android app
 
-Download the APK on your phone, open it from Chrome's Downloads or your Files app, and confirm **Install**. Android may first ask you to allow installs from Chrome or Files. The app appears as **Sol: Lightkeeper** in the app drawer. It contains the full game, works without a connection, and requests no Internet permission. The APK's [SHA-256 checksum](dist/downloads/Sol-Lightkeeper-v1.0.apk.sha256) is published beside it.
+Download the APK on your phone, open it from Chrome's Downloads or your Files app, and confirm **Install**. Android may first ask you to allow installs from Chrome or Files. The app appears as **Sol: Lightkeeper** in the app drawer. Version 1.0.1 installs over 1.0 with the same signing identity and keeps the app's local progress. It contains the full game, works without a connection, and requests no Internet permission. The APK's [SHA-256 checksum](dist/downloads/Sol-Lightkeeper-v1.0.1.apk.sha256) is published beside it.
 
 On a fresh sideload, Google Play Protect may show **Unsafe app blocked** because it has not seen this new signing identity. In the Android emulator, **More details → Install anyway** completed the install. You can use the browser shortcut below if you prefer not to allow sideloading.
 

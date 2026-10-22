@@ -147,7 +147,7 @@ function openLevels() {
     label.append(strong, small);
     const check = document.createElement('span'); check.className = 'level-check'; check.textContent = completed[index] ? '✺' : index > unlocked ? '○' : '→';
     button.append(number, label, check);
-    button.addEventListener('click', () => { loadLevel(index); hideModal($('levelsModal')); });
+    button.addEventListener('click', () => { loadLevel(index, index === levelIndex); hideModal($('levelsModal')); });
     $('levelList').append(button);
   });
   showModal($('levelsModal'));

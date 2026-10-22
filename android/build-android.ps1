@@ -19,7 +19,7 @@ $unsigned = Join-Path $build 'unsigned.apk'
 $aligned = Join-Path $build 'aligned.apk'
 $keystore = Join-Path $repo 'release\sol-lightkeeper.jks'
 $passwordFile = Join-Path $repo 'release\keystore-pass.txt'
-$output = Join-Path $repo 'dist\downloads\Sol-Lightkeeper-v1.0.apk'
+$output = Join-Path $repo 'dist\downloads\Sol-Lightkeeper-v1.0.1.apk'
 
 function Check-Exit([string] $step) {
     if ($LASTEXITCODE -ne 0) { throw "$step failed with exit code $LASTEXITCODE" }
@@ -78,6 +78,6 @@ Check-Exit 'APK signing'
 & (Join-Path $tools 'apksigner.bat') verify --verbose $output
 Check-Exit 'APK signature verification'
 $sha256 = (Get-FileHash -Algorithm SHA256 -Path $output).Hash.ToLowerInvariant()
-Set-Content -Path "$output.sha256" -Value "$sha256  Sol-Lightkeeper-v1.0.apk" -Encoding Ascii
+Set-Content -Path "$output.sha256" -Value "$sha256  Sol-Lightkeeper-v1.0.1.apk" -Encoding Ascii
 & (Join-Path $tools 'aapt.exe') dump badging $output | Select-Object -First 5
 Write-Output "Built $output"
