@@ -12,6 +12,8 @@ The [owner-private Site](https://sol-lightkeeper.shaun-mcintyre813.chatgpt.site)
 
 Download the APK on your phone, open it from Chrome's Downloads or your Files app, and confirm **Install**. Android may first ask you to allow installs from Chrome or Files. The app appears as **Sol: Lightkeeper** in the app drawer. It contains the full game, works without a connection, and requests no Internet permission. The APK's [SHA-256 checksum](dist/downloads/Sol-Lightkeeper-v1.0.apk.sha256) is published beside it.
 
+On a fresh sideload, Google Play Protect may show **Unsafe app blocked** because it has not seen this new signing identity. In the Android emulator, **More details → Install anyway** completed the install. You can use the browser shortcut below if you prefer not to allow sideloading.
+
 The Android app stores progress separately from the Chrome version. Installing it does not erase Chrome's saved progress or require removing a stuck Chrome web-app installation.
 
 ## Browser install
