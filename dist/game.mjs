@@ -308,10 +308,12 @@ $('installButton').addEventListener('click', async () => {
   deferredInstall = null; $('installButton').classList.add('hidden');
 });
 window.addEventListener('appinstalled', () => { deferredInstall = null; $('installButton').classList.add('hidden'); });
-if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $('installText').textContent = 'In Safari, tap Share, then “Add to Home Screen.” Open it once online and it will work offline afterward.';
-else if (/Android/.test(navigator.userAgent)) $('installText').textContent = 'In Chrome, tap the menu (⋮), then “Add to Home screen” or “Install app.” Open it once online and it will work offline afterward.';
+const bundledAndroid = location.hostname === 'appassets.androidplatform.net';
+if (bundledAndroid) $('installText').closest('.install-note').classList.add('hidden');
+else if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $('installText').textContent = 'In Safari, tap Share, then “Add to Home Screen.” Open it once online and it will work offline afterward.';
+else if (/Android/.test(navigator.userAgent)) $('installText').textContent = 'In Chrome, tap the menu (⋮), then “Add to Home screen” or “Install app.” If Install says it is already installed but no icon appears, choose “Create shortcut.”';
 
 new ResizeObserver(resizeCanvas).observe(board);
 updateHeader(); resizeCanvas(); requestAnimationFrame(animate);
 if (!remembered.visited) showModal($('introModal'));
-if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+if (!bundledAndroid && 'serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
