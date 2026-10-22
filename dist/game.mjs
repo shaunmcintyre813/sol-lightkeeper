@@ -1,4 +1,4 @@
-import { LEVELS, initialSides, rotate, trace } from './core.mjs';
+import { LEVELS, initialSides, rotate, trace, unlockedFromProgress } from './core.mjs?v=1.0.3';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('gameCanvas');
@@ -11,8 +11,8 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const remembered = readProgress();
 
 let levelIndex = Math.min(Math.max(Number(remembered.current) || 0, 0), LEVELS.length - 1);
-let unlocked = Math.min(Math.max(Number(remembered.unlocked) || 0, 0), LEVELS.length - 1);
 let completed = Array.isArray(remembered.completed) ? remembered.completed.slice(0, LEVELS.length).map(Boolean) : [];
+let unlocked = unlockedFromProgress(completed, remembered.unlocked);
 let sides = Array.isArray(remembered.sides) && remembered.sides.length === LEVELS[levelIndex].mirrors.length
   ? remembered.sides.map(v => v === 1 ? 1 : 0) : initialSides(LEVELS[levelIndex]);
 let ray = trace(LEVELS[levelIndex], sides);

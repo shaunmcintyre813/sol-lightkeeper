@@ -18,10 +18,19 @@ export const LEVELS = [
   level('Sunset loop', 'A long route can be a lovely one.', [6, 6, 2], [[5, 1]], [[4, 6, 1, 0], [4, 4, 1, 0], [1, 4, 0, 1], [1, 5, 1, 0], [5, 5, 0, 1]], [], [[2, 6], [6, 0]]),
   level('Amber branches', 'Let both paths find their own way.', [0, 1, 0], [[6, 4], [0, 4]], [[5, 1, 1, 0], [5, 4, 1, 0], [2, 4, 0, 1]], [[2, 1]], [[6, 6]]),
   level('Home again', 'A little light can wake a whole world.', [0, 1, 0], [[5, 4], [6, 5], [0, 6]], [[5, 1, 1, 0], [2, 5, 1, 0], [0, 3, 0, 1]], [[2, 1], [2, 3]], [[4, 6]]),
+  level('One more morning', 'Even home has a new sunrise.', [0, 3, 0], [[2, 0], [4, 5]], [[2, 3, 0, 1], [4, 1, 1, 0]], [[2, 1]], [[6, 6], [0, 6]]),
 ];
 
 export function initialSides(levelData) {
   return levelData.mirrors.map((mirror) => mirror[3]);
+}
+
+export function unlockedFromProgress(completed, storedUnlocked, levelCount = LEVELS.length) {
+  let unlocked = Math.min(Math.max(Number(storedUnlocked) || 0, 0), levelCount - 1);
+  completed.forEach((done, index) => {
+    if (done && index < levelCount - 1) unlocked = Math.max(unlocked, index + 1);
+  });
+  return unlocked;
 }
 
 export function solutionSides(levelData) {

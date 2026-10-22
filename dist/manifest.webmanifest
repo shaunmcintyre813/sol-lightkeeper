@@ -1,7 +1,7 @@
 {
   "name": "Sol: Lightkeeper",
   "short_name": "Sol",
-  "description": "A small, tactile light puzzle. Turn mirrors and wake ten gardens.",
+  "description": "A small, tactile light puzzle. Turn mirrors and wake eleven gardens.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
