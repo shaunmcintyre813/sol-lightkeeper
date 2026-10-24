@@ -16,6 +16,8 @@ Future **game-content** changes published here are downloaded into the installed
 
 Content release 1.0.3 adds **One more morning** as an eleventh garden. It is delivered to the installed 1.0.2 Android app through the update manifest; the APK version remains 1.0.2.
 
+Maintenance content release 1.0.4 limits web cache cleanup to Sol's own cache names, preserving other games' offline files on the same hosting origin. Garden content and saves are unchanged; the APK remains 1.0.2. See [maintenance checks](MAINTENANCE.md).
+
 On a fresh sideload, Google Play Protect may show **Unsafe app blocked** because it has not seen this new signing identity. In the Android emulator, **More details → Install anyway** completed the install. You can use the browser shortcut below if you prefer not to allow sideloading.
 
 The Android app stores progress separately from the Chrome version. Installing it does not erase Chrome's saved progress or require removing a stuck Chrome web-app installation.

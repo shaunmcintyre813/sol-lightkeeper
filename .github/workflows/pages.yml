@@ -29,8 +29,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Check puzzle routes
-        run: node --test tests/levels.test.mjs
+      - name: Check puzzle routes and cache isolation
+        run: node --test tests/*.test.mjs
       - name: Check complete update manifest
         run: node tools/update-manifest.mjs --check
       - name: Check native update rollback

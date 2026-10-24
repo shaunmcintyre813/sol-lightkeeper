@@ -1,0 +1,7 @@
+# Keep hash-verified web content identical on Windows and Linux checkouts.
+/dist/*.mjs text eol=lf
+/dist/*.js text eol=lf
+/dist/*.html text eol=lf
+/dist/*.css text eol=lf
+/dist/*.webmanifest text eol=lf
+/dist/update.manifest text eol=lf

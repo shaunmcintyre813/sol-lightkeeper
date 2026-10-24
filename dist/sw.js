@@ -1,4 +1,4 @@
-const CACHE = 'sol-lightkeeper-v6';
+const CACHE = 'sol-lightkeeper-v7';
 const ASSETS = [
   './', './index.html', './style.css', './game.mjs?v=1.0.3', './core.mjs?v=1.0.3',
   './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png',
@@ -10,7 +10,8 @@ self.addEventListener('install', event => {
 });
 self.addEventListener('activate', event => {
   event.waitUntil(Promise.all([
-    caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))),
+    // CacheStorage is shared by every app on this origin.
+    caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('sol-lightkeeper-') && key !== CACHE).map(key => caches.delete(key)))),
     self.clients.claim(),
   ]));
 });
